@@ -4,6 +4,7 @@ import joblib
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 # Charger le dataset
+# Remplacez cette ligne si elle existe :
 df = pd.read_parquet('fichier_compresse.parquet')
 
 # Charger le modèle et le scaler
@@ -138,13 +139,13 @@ with st.container():
 
     # Écran pour prédire le montant et la durée du prêt
     with st.expander("Prédiction du Montant de Prêt et de Durée", expanded=True):
-        montant_total_paye = st.number_input("Montant total payé (FCFA)", min_value=0.0)
-        montant_principal_rembourse = st.number_input("Montant principal remboursé (FCFA)", min_value=0.0)
-        montant_interets_rembourses = st.number_input("Montant des intérêts remboursés (FCFA)", min_value=0.0)
-        montant_dernier_paiement = st.number_input("Montant du dernier paiement (FCFA)", min_value=0.0)
-        montant_recouvrement = st.number_input("Montant de recouvrement (FCFA)", min_value=0.0)
-        montant_principal_restant = st.number_input("Montant principal restant (FCFA)", min_value=0.0)
-        montant_investisseur_restant = st.number_input("Montant investisseur restant (FCFA)", min_value=0.0)
+        montant_total_paye = st.number_input("Montant total payé", min_value=0.0)
+        montant_principal_rembourse = st.number_input("Montant principal remboursé ", min_value=0.0)
+        montant_interets_rembourses = st.number_input("Montant des intérêts remboursés ", min_value=0.0)
+        montant_dernier_paiement = st.number_input("Montant du dernier paiement ", min_value=0.0)
+        montant_recouvrement = st.number_input("Montant de recouvrement", min_value=0.0)
+        montant_principal_restant = st.number_input("Montant principal restant ", min_value=0.0)
+        montant_investisseur_restant = st.number_input("Montant investisseur restant ", min_value=0.0)
         code_politique = st.number_input("Code politique", min_value=0.0, max_value=1.0)
 
         # Bouton pour effectuer la prédiction
@@ -169,7 +170,7 @@ with st.container():
             predicted_duree = xgb_model_term.predict(input_data_scaled)
 
             # Afficher les résultats
-            st.markdown(f'<p class="result">Montant du prêt prédit : {predicted_montant[0]:.2f} FCFA</p>', unsafe_allow_html=True)
+            st.markdown(f'<p class="result">Montant du prêt prédit : {predicted_montant[0]:.2f} €</p>', unsafe_allow_html=True)
             st.markdown(f'<p class="result">Durée du prêt prédit : {predicted_duree[0]:.2f} mois</p>', unsafe_allow_html=True)
 
 # Afficher les informations supplémentaires

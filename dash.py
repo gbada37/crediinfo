@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import numpy as np
-import matplotlib.pyplot as plt
 
 # Supposons que df_renamed est votre DataFrame contenant les données nécessaires.
 df_renamed = pd.read_parquet('fichier_compresse.parquet')
@@ -56,26 +54,23 @@ with col2:
     st.plotly_chart(fig2, use_container_width=True)
     st.plotly_chart(fig4, use_container_width=True)
 
-# Graphique de la distribution des statuts de logement
+# Graphique de la distribution des statuts de logement avec Plotly Express
 st.subheader('Distribution des Statuts de Logement')
-logement_counts = df_renamed['statut_logement'].value_counts()
-plt.figure(figsize=(10, 6))
-logement_counts.plot(kind='bar', color='skyblue')
-plt.title('Distribution des Statuts de Logement')
-plt.xlabel('Statut de Logement')
-plt.ylabel('Nombre de Clients')
-plt.xticks(rotation=45)
-plt.grid(axis='y')
-st.pyplot(plt)
+logement_counts = df_renamed['statut_logement'].value_counts().reset_index()
+logement_counts.columns = ['statut_logement', 'nombre_clients']
+fig_logement = px.bar(logement_counts, x='statut_logement', y='nombre_clients',
+                       title='Distribution des Statuts de Logement',
+                       labels={'statut_logement': 'Statut de Logement', 'nombre_clients': 'Nombre de Clients'},
+                       color='nombre_clients')
+fig_logement.update_layout(xaxis_title="Statut de Logement", yaxis_title="Nombre de Clients")
 
-# Histogramme de la distribution du total des comptes de crédit
+st.plotly_chart(fig_logement, use_container_width=True)
+
+# Histogramme de la distribution du total des comptes de crédit avec Plotly Express
 st.subheader('Distribution du Total des Comptes de Crédit')
-plt.figure(figsize=(10, 6))
-plt.hist(df_renamed['comptes_credit_total'], bins=30, color='lightgreen', edgecolor='black')
-plt.title('Distribution du Total des Comptes de Crédit')
-plt.xlabel('Total des Comptes de Crédit')
-plt.ylabel('Nombre de Clients')
-plt.grid(axis='y')
-st.pyplot(plt)
+fig_credit = px.histogram(df_renamed, x='comptes_credit_total', nbins=30, 
+                          title='Distribution du Total des Comptes de Crédit',
+                          labels={'comptes_credit_total': 'Total des Comptes de Crédit'})
+fig_credit.update_layout(xaxis_title="Total des Comptes de Crédit", yaxis_title="Nombre de Clients")
 
-
+st.plotly_chart(fig_credit, use_container_width=True)

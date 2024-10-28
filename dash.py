@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Supposons que df_renamed est votre DataFrame contenant les données nécessaires.
-df_renamed = pd.read_csv('creditdata_cleaned.csv')
+df_renamed = pd.read_parquet('fichier_compresse.parquet')
 
 # Calcul des revenus moyens par solvabilité
 mean_revenue = df_renamed.groupby('solvabilite')['revenu_annuel'].mean().reset_index()
